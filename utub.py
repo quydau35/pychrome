@@ -1,4 +1,5 @@
 import time
+import random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,8 +12,8 @@ video_url = 'https://www.youtube.com/watch?v=IlHrdsPXOUM'
 video_interval_length = 5*60+41
 usernames = open(user_names_file, "r").read().split("\n")
 print( video_interval_length )
-n = 0
 while True:
+    n = random.randint( 0, len(usernames) - 1 )
     print("username: " + str(usernames[n]))
     options = webdriver.ChromeOptions()
     options.add_argument("--autoplay-policy=no-user-gesture-required")
@@ -25,4 +26,5 @@ while True:
         time.sleep(video_interval_length)
         driver.refresh()
     driver.close()
+    del driver
 # driver.reload()
