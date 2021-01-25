@@ -15,9 +15,9 @@ data = json.loads(requests.get(url="https://x1ai8s.deta.dev/all").text)
 
 user_names_file = './usernames.txt'
 video_url = 'https://www.youtube.com/watch?v=IlHrdsPXOUM'
-video_interval_length = 5*60+41
+# video_interval_length = 5*60+41
 usernames = open(user_names_file, "r").read().split("\n")
-print( video_interval_length )
+# print( video_interval_length )
 
 class Jobs:
     def __init__(self, url, interval, loop, active, username, webdriver):
@@ -41,8 +41,11 @@ class Jobs:
                 time.sleep(3)
                 time.sleep(self.interval)
                 self.driver.refresh()
-            self.driver.close()
-            del self.driver
+            self.dispose_driver()
+
+    def dispose_driver(self):
+        self.driver.close()
+        del self.driver
 
 for j in range(1000):
     n = random.randint( 0, len(usernames) - 1 )
