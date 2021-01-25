@@ -20,7 +20,7 @@ usernames = open(user_names_file, "r").read().split("\n")
 print( video_interval_length )
 
 class Jobs:
-    def __init__(self, url, interval, loop, active, username):
+    def __init__(self, url, interval, loop, active, username, webdriver):
         self.url = url
         self.interval = interval
         self.loop = loop
@@ -28,7 +28,7 @@ class Jobs:
         self.username = username
         self.options = webdriver.ChromeOptions()
         self.options.add_argument("--autoplay-policy=no-user-gesture-required")
-        self.options.add_argument("--headless")
+        # self.options.add_argument("--headless")
         self.options.add_argument("--user-data-dir=users/" + str( self.username ))
         self.driver = webdriver.Chrome( options=self.options)
 
@@ -41,15 +41,15 @@ class Jobs:
                 time.sleep(3)
                 time.sleep(self.interval)
                 self.driver.refresh()
-                self.driver.close()
-                del self.driver
+            self.driver.close()
+            del self.driver
 
 for j in range(1000):
     n = random.randint( 0, len(usernames) - 1 )
     print("username: " + str(usernames[n]))
     job_list = []
     for i in range(len(data[0])):
-        jb = Jobs(data[0][i]["url"], data[0][i]["video_interval_length"], data[0][i]["loop"], data[0][i]["active"], usernames[n])
+        jb = Jobs(data[0][i]["url"], data[0][i]["video_interval_length"], data[0][i]["loop"], data[0][i]["active"], usernames[n], webdriver)
         p = Process(target = jb.run_drivers(usernames[n]))
         job_list.append(p)
     for job_item in job_list:
