@@ -28,7 +28,7 @@ class Jobs:
         self.username = username
         self.options = webdriver.ChromeOptions()
         self.options.add_argument("--autoplay-policy=no-user-gesture-required")
-        # self.options.add_argument("--headless")
+        self.options.add_argument("--headless")
         self.options.add_argument("--user-data-dir=users/" + str( self.username ))
         self.driver = webdriver.Chrome( options=self.options)
 
